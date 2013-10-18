@@ -1,0 +1,20 @@
+publicaciones:
+    resource: "@PublicacionesBundle/Controller/"
+    type:     annotation
+    prefix:   /backend
+
+categorias_galeria:
+    resource: "@CategoriasGaleriaBundle/Controller/"
+    type:     annotation
+    prefix:   /backend
+
+richpolis_backend:
+    resource: "@BackendBundle/Controller/"
+    type:     annotation
+    prefix:   /backend
+
+richpolis_frontend:
+    resource: "@FrontendBundle/Controller/"
+    type:     annotation
+    prefix:   /
+

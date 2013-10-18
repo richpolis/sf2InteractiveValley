@@ -1,0 +1,77 @@
+{% extends "FrontendBundle::layout.html.twig" %}
+
+{% block stylesheets %}
+ {{parent()}}
+
+{% endblock %}
+
+{% block body %}
+<section id="contenido">
+    <article id="content-slider">
+        <div id="slider">
+            <div id="mask">
+                <ul>
+                    <li id="first" class="firstanimation">
+                        <a {% if galerias[0].descripcion | length > 0 %} href="{{galerias[0].descripcion}}" target="_blank" {% else %} href="#"{% endif %}>
+                            <img src="{{galerias[0].webPath | apply_filter('galeria_imagen_recortar')}}" alt="{{galerias[0].titulo}}"/>
+                        </a>
+                        <div class="tooltip">
+                            <h1>{{galerias[0].titulo}}</h1>
+                        </div>
+                    </li>
+
+                    <li id="second" class="secondanimation">
+                        <a {% if galerias[1].descripcion | length > 0 %} href="{{galerias[1].descripcion}}" target="_blank" {% else %} href="#"{% endif %}>
+                            <img src="{{galerias[1].webPath | apply_filter('galeria_imagen_recortar')}}" alt="{{galerias[1].titulo}}"/>
+                        </a>
+                        <div class="tooltip">
+                            <h1>{{galerias[1].titulo}}</h1>
+                        </div>
+                    </li>
+
+                    <li id="third" class="thirdanimation">
+                        <a {% if galerias[2].descripcion | length > 0 %} href="{{galerias[2].descripcion}}" target="_blank" {% else %} href="#"{% endif %}>
+                            <img src="{{galerias[2].webPath | apply_filter('galeria_imagen_recortar')}}" alt="{{galerias[2].titulo}}"/>
+                        </a>
+                        <div class="tooltip">
+                            <h1>{{galerias[2].titulo}}</h1>
+                        </div>
+                    </li>
+
+                    <li id="fourth" class="fourthanimation">
+                        <a {% if galerias[3].descripcion | length > 0 %} href="{{galerias[3].descripcion}}" target="_blank" {% else %} href="#"{% endif %}>
+                            <img src="{{galerias[3].webPath | apply_filter('galeria_imagen_recortar')}}" alt="{{galerias[3].titulo}}"/>
+                        </a>
+                        <div class="tooltip">
+                            <h1>{{galerias[3].titulo}}</h1>
+                        </div>
+                    </li>
+
+                    <li id="fifth" class="fifthanimation">
+                        <a {% if galerias[4].descripcion | length > 0 %} href="{{galerias[4].descripcion}}" target="_blank" {% else %} href="#"{% endif %}>
+                            <img src="{{galerias[4].webPath | apply_filter('galeria_imagen_recortar')}}" alt="{{galerias[4].titulo}}"/>
+                        </a>
+                        <div class="tooltip">
+                            <h1>{{galerias[4].titulo}}</h1>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="progress-bar"></div>
+        </div>
+    </article>    
+    <article id="contenido-pagina-inicial">
+        <hr/>
+            <h2>{{paginaInicial.titulo(locale)}}</h2>
+            {{ paginaInicial.descripcion(locale) | raw }}
+        <hr/>
+    </article>
+</section>
+
+{% endblock %}
+{% block javascripts %}
+    {{parent()}}
+    <script>
+    
+    </script>
+{% endblock %}
