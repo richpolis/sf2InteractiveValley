@@ -2,76 +2,108 @@
 
 {% block stylesheets %}
  {{parent()}}
-
 {% endblock %}
 
 {% block body %}
-<section id="contenido">
-    <article id="content-slider">
-        <div id="slider">
-            <div id="mask">
-                <ul>
-                    <li id="first" class="firstanimation">
-                        <a {% if galerias[0].descripcion | length > 0 %} href="{{galerias[0].descripcion}}" target="_blank" {% else %} href="#"{% endif %}>
-                            <img src="{{galerias[0].webPath | apply_filter('galeria_imagen_recortar')}}" alt="{{galerias[0].titulo}}"/>
-                        </a>
-                        <div class="tooltip">
-                            <h1>{{galerias[0].titulo}}</h1>
-                        </div>
-                    </li>
-
-                    <li id="second" class="secondanimation">
-                        <a {% if galerias[1].descripcion | length > 0 %} href="{{galerias[1].descripcion}}" target="_blank" {% else %} href="#"{% endif %}>
-                            <img src="{{galerias[1].webPath | apply_filter('galeria_imagen_recortar')}}" alt="{{galerias[1].titulo}}"/>
-                        </a>
-                        <div class="tooltip">
-                            <h1>{{galerias[1].titulo}}</h1>
-                        </div>
-                    </li>
-
-                    <li id="third" class="thirdanimation">
-                        <a {% if galerias[2].descripcion | length > 0 %} href="{{galerias[2].descripcion}}" target="_blank" {% else %} href="#"{% endif %}>
-                            <img src="{{galerias[2].webPath | apply_filter('galeria_imagen_recortar')}}" alt="{{galerias[2].titulo}}"/>
-                        </a>
-                        <div class="tooltip">
-                            <h1>{{galerias[2].titulo}}</h1>
-                        </div>
-                    </li>
-
-                    <li id="fourth" class="fourthanimation">
-                        <a {% if galerias[3].descripcion | length > 0 %} href="{{galerias[3].descripcion}}" target="_blank" {% else %} href="#"{% endif %}>
-                            <img src="{{galerias[3].webPath | apply_filter('galeria_imagen_recortar')}}" alt="{{galerias[3].titulo}}"/>
-                        </a>
-                        <div class="tooltip">
-                            <h1>{{galerias[3].titulo}}</h1>
-                        </div>
-                    </li>
-
-                    <li id="fifth" class="fifthanimation">
-                        <a {% if galerias[4].descripcion | length > 0 %} href="{{galerias[4].descripcion}}" target="_blank" {% else %} href="#"{% endif %}>
-                            <img src="{{galerias[4].webPath | apply_filter('galeria_imagen_recortar')}}" alt="{{galerias[4].titulo}}"/>
-                        </a>
-                        <div class="tooltip">
-                            <h1>{{galerias[4].titulo}}</h1>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="progress-bar"></div>
+<article id="home-article-principal">
+    <header>
+        <hgroup>
+            <h1>Interactive Valley</h1>	
+            <h2>Interactive Media Desing & Development</h2>
+        </hgroup>
+    </header>
+    <div class="contenido-article">
+        Interactive Valley is a highly experienced team of passionate creatives and coders constantly on the search for challenges to push the experience across digital channels - web, mobile and installations - empowering audiences to connect and share. 
+    </div>
+    <div id="galeria-principal">
+        <figure id="ctl-left">
+            <img src="{{ asset('images/keyarts/home/home_leftarrow.png') }}" alt="Left">
+        </figure>
+        <div id="contenido-galeria">
+            <span class="titulogaleria">
+                who we are
+            </span>
+            <ul class="slider">
+                <li>
+                    <figure>
+                        <img src="{{ asset('images/demo/img_1.jpg') }}" alt="algun dato">
+                        <figcaption>
+                            titulo
+                        </figcaption>
+                    </figure>
+                </li>
+                <li>
+                    <figure>
+                        <img src="{{ asset('images/demo/img_2.jpg') }}" alt="algun dato">
+                        <figcaption>
+                            titulo
+                        </figcaption>
+                    </figure>
+                </li>
+                <li>
+                    <figure>
+                        <img src="{{asset('images/demo/img_3.jpg')}}" alt="algun dato">
+                        <figcaption>
+                            titulo
+                        </figcaption>
+                    </figure>
+                </li>
+            </ul>
         </div>
-    </article>    
-    <article id="contenido-pagina-inicial">
-        <hr/>
-            <h2>{{paginaInicial.titulo(locale)}}</h2>
-            {{ paginaInicial.descripcion(locale) | raw }}
-        <hr/>
-    </article>
-</section>
+        <figure id="ctl-right">
+            <img src="{{asset('images/keyarts/home/home_rightarrow.png')}}" alt="Right">
+        </figure>
+    </div>
+</article>
+<article  id="home-article-secundario">
+    <header>
+        &nbsp;
+    </header>
+    <div class="contenido-article marginTop60">
+        <p>
+        <h3>contact</h3>
+        <div>
+            <a href="mailto:hello@interactivevalley.com">hello@interactivevalley.com</a>
+        </div>
+        </p>
+    </div>
+    <div class="contenido-article marginTop30">
+        <p>
+        <h3>inquires & opportunities</h3>
+        <div>
+            Interactive Valley is always looking for new opportunities to collaborate with partners on projects under development, or planning new ways to implement interactive media.<br/> Please contact us to discuss new opportunities for collaboration.
+        </div>
+        </p> 
+    </div>
+    <footer>
+        <p>
+        <h3>paterns <img src="{{asset('images/keyarts/home/macro-pano.png')}}" alt="Macro-pano.com"></h3>
+        </p>
+    </footer>
+</article>
 
 {% endblock %}
 {% block javascripts %}
     {{parent()}}
-    <script>
-    
-    </script>
+<script>
+    $(document).ready(function(){
+        var setSizeArticlesPrimeroSegundo=function() { 
+          var myHeight = 0; 
+          if( typeof( window.innerHeight ) == 'number' ) { 
+            //No-IE 
+            myHeight = window.innerHeight; 
+          } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) { 
+            //IE 6+ 
+            myHeight = document.documentElement.clientHeight; 
+          } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) { 
+            //IE 4 compatible 
+            myHeight = document.body.clientHeight; 
+          } 
+          $("#home-article-principal").css({'min-height':(myHeight-40)+'px'});
+          $("#home-article-secundario").css({'min-height':(myHeight-40)+'px'});
+        }
+
+        setSizeArticlesPrimeroSegundo();
+    });
+</script>
 {% endblock %}

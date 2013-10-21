@@ -29,11 +29,39 @@ class DefaultController extends Controller {
     {
 
         return $this->render("FrontendBundle:Default:index.html.twig",array(
+            
         ));
 
     }
     
+    /**
+     * Lists all Frontend projects.
+     *
+     * @Route("/projects", name="proyectos")
+     */
+    public function proyectosAction()
+    {
+
+        return $this->render("FrontendBundle:Default:vcells.html.twig",array(
+            
+        ));
+
+    }
     
+    /**
+     * Show only project with all images in the gallery.
+     *
+     * @Route("/projects/show/{id}", name="proyectos_show")
+     */
+    public function proyectosShowAction($id)
+    {
+
+        return $this->render("FrontendBundle:Default:vsingle.html.twig",array(
+            
+        ));
+
+    }
+
     /**
      * @Route("/contacto", name="frontend_contacto")
      * @Method({"GET", "POST"})
