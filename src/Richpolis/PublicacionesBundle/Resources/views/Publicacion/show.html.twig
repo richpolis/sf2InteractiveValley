@@ -9,7 +9,7 @@
 {% endblock %}    
 
 {% block body %}
-<h1>Publicacion "{{ entity.tituloEn }} / {{ entity.tituloEs }}"</h1>
+<h1>Publicacion "{{ entity.titulo }}"</h1>
 
 <table class="record_properties table table-bordered">
     <tbody>
@@ -18,31 +18,37 @@
             <td>{{ entity.id }}</td>
         </tr>
         <tr>
-            <th>Titulo Ingles</th>
-            <td>{{ entity.tituloEn }}</td>
+            <th>Titulo</th>
+            <td>{{ entity.titulo }}</td>
         </tr>
         <tr>
-            <th>Titulo Español</th>
-            <td>{{ entity.tituloEs }}</td>
+            <th>Descripcion</th>
+            <td>{{ entity.descripcionCorta | raw }}</td>
         </tr>
         <tr>
-            <th>Descripcion Ingles</th>
-            <td>{{ entity.descripcionEn | raw }}</td>
+            <th>Cliente</th>
+            <td>{{ entity.cliente }}</td>
         </tr>
         <tr>
-            <th>Descripcion Español</th>
-            <td>{{ entity.descripcionEs | raw }}</td>
-        </tr>
-        {% if entity.archivo | length > 0 %}
-        <tr>
-            <th>Imagen</th>
-            <td><img src="{{entity.webPath | apply_filter('platillos_imagen')}}"/></td>
+            <th>Descripcion Cliente</th>
+            <td>{{ entity.descripcionCliente | raw }}</td>
         </tr>
         <tr>
-            <th>Thumbnail</th>
-            <td><img src="{{ entity.ThumbnailWebPath }}" /></td>
+            <th>Fecha</th>
+            <td>{{ entity.fecha | date('Y-m-d') }}</td>
         </tr>
-        {% endif %}
+        <tr>
+            <th>Descripcion Fecha</th>
+            <td>{{ entity.descripcionFecha | raw }}</td>
+        </tr>
+        <tr>
+            <th>Localizacion</th>
+            <td>{{ entity.location }}</td>
+        </tr>
+        <tr>
+            <th>Descripcion localizacion</th>
+            <td>{{ entity.descripcionLocation | raw }}</td>
+        </tr>
         <tr>
             <th>Posicion</th>
             <td>{{ entity.posicion }}</td>
@@ -73,6 +79,17 @@
             <button class="btn btn-success" onclick="location.href='{{ path('publicacion_edit', { 'id': entity.id }) }}'">
                 Editar
             </button>
+        </li>
+        <li>
+        {% if galerias is not null %}    
+            <button class="btn btn-success" onclick="location.href='{{ path('publicacion_galerias_edit', { 'id': entity.id }) }}'">
+                Administrar Galeria
+            </button>
+        {% else %}
+            <button class="btn" onclick="location.href='{{ path('publicacion_galerias_create', { 'id': entity.id }) }}'">
+                Crear Galeria
+            </button>
+        {% endif %}    
         </li>
         <li>&nbsp;</li>
         <li>

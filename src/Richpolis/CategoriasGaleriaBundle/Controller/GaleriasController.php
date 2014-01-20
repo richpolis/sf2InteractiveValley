@@ -274,7 +274,7 @@ class GaleriasController extends Controller
        // to pass data through iframe you will need to encode all html tags
        /*****************************************************************/
        //$file = $request->getParameter("qqfile");
-       $em = $this->getDoctrine()->getEntityManager();
+       $em = $this->getDoctrine()->getManager();
        $max = $em->getRepository('CategoriasGaleriaBundle:Galerias')->getMaxPosicion();
        $categoria=$em->getRepository('CategoriasGaleriaBundle:Categorias')->find($categoria_id);
        if($max == null){

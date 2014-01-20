@@ -5,89 +5,71 @@
 {% endblock %}
 
 {% block texto_menu %}
- 	<span class="show-all">show all</span><br>
-	<span class="featured">featured</span><br>	
-	<span class="search">search</span><br>
+<span class="show-all">show all</span><br>
+<span class="featured">featured</span><br>	
+<span class="search">search</span><br>
 {% endblock %}
 
 {% block body %}
 <article id="proyectos-article">
     <header>
         <div id="titulos-proyectos">
-        	Work 
-        	<img src="{{asset('images/keyarts/works/diagonal_header.png')}}" alt="Left"> All
+            Work 
+            <img src="{{asset('images/keyarts/works/diagonal_header.png')}}" alt="Left"> All
         </div>
         <div id="controles-proyectos">
-        	<span class="ctl-left">&nbsp;</span>
-        	<span class="ctl-right">&nbsp;</span>
+            <span class="ctl-left">&nbsp;</span>
+            <span class="ctl-right">&nbsp;</span>
         </div>
         <div id="visualizar-proyectos">
-        	<span class="vcells active">&nbsp;</span>
-        	<span class="vsingle">&nbsp;</span>
+            <span class="vcells active">&nbsp;</span>
+            <span class="vsingle">&nbsp;</span>
         </div>
     </header>
     <div class="proyectos">
-		<ul class="lista-proyectos">
-			{% for numero in range(1, 5) %}
-			<li class="proyecto">
-				<figure>
-					<a href="{{path('proyectos_show',{'id':numero})}}">
-					<img src="/images/demo/img_{{numero}}.jpg" alt="Nombre del proyecto">
-					</a>
-				</figure>
-				<div class="contenido-proyecto">
-					<h4>proyecto numero: {{numero}}</h4>
-					<h5>otro dato</h5>
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque ipsum modi voluptates aperiam odit eaque quos sed. Numquam, quia, eveniet, omnis, dolores dolore odio obcaecati ea vitae asperiores deleniti eaque.
-					</p>
-				</div>
-			</li>
-			{% endfor %}
-			{% for numero in range(1, 5) %}
-			<li class="proyecto">
-				<figure>
-					<a href="{{path('proyectos_show',{'id':numero})}}">
-					<img src="/images/demo/img_{{numero}}.jpg" alt="Nombre del proyecto">
-					</a>
-				</figure>
-				<div class="contenido-proyecto">
-					<h4>proyecto numero: {{numero}}</h4>
-					<h5>otro dato</h5>
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque ipsum modi voluptates aperiam odit eaque quos sed. Numquam, quia, eveniet, omnis, dolores dolore odio obcaecati ea vitae asperiores deleniti eaque.
-					</p>
-				</div>
-			</li>
-			{% endfor %}
-		</ul>
+        <ul class="lista-proyectos">
+            {% for pg in pgs %}
+            <li class="proyecto">
+                <figure>
+                    <a href="{{path('proyectos_show',{'id':pg.proyecto.id})}}">
+                        <img src="{{pg.galeria.galerias[0].thumbnailWebPath}}" alt="{{pg.proyecto.titulo}}">
+                    </a>
+                </figure>
+                <div class="contenido-proyecto">
+                    <h4>{{pg.proyecto.titulo}}</h4>
+                    <h5>{{pg.proyecto.cliente}}</h5>
+                    {{pg.proyecto.descripcionCorta | raw }}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
-	<footer>
-		&nbsp;
-	</footer>
+    <footer>
+        &nbsp;
+    </footer>
 </article>
 {% endblock %}
 {% block javascripts %}
     {{parent()}}
 <script>
-	var posicionProyectos = 0;
-	var proyectos=10;
-	var contProyectos=2;
-	$(document).on("ready",function(){
-		$(".ctl-left").on("click",function(){
-			if(contProyectos>2){
-				$("ul.lista-proyectos").animate({'left':'+=336px'},"slow");
-				posicionProyectos += 336;
-				contProyectos-=2;	
-			}
-		});
-		$(".ctl-right").on("click",function(){
-			if(contProyectos<proyectos){
-				$("ul.lista-proyectos").animate({'left':'-=336px'},"slow");
-				posicionProyectos -= 336;
-				contProyectos+=2;	
-			}
-		});
-	});
+    var posicionProyectos = 0;
+    var proyectos = {{pgs | length }};
+    var contProyectos = 2;
+    $(document).on("ready", function() {
+        $(".ctl-left").on("click", function() {
+            if (contProyectos > 2) {
+                $("ul.lista-proyectos").animate({'left': '+=336px'}, "slow");
+                posicionProyectos += 336;
+                contProyectos -= 2;
+            }
+        });
+        $(".ctl-right").on("click", function() {
+            if (contProyectos < proyectos) {
+                $("ul.lista-proyectos").animate({'left': '-=336px'}, "slow");
+                posicionProyectos -= 336;
+                contProyectos += 2;
+            }
+        });
+    });
 </script>
 {% endblock %}

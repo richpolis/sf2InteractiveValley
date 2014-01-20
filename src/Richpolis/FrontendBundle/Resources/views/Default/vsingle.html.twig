@@ -5,119 +5,112 @@
 {% endblock %}
 
 {% block texto_menu %}
- 	<span class="show-all">show all</span><br>
-	<span class="featured">featured</span><br>	
-	<span class="search">search</span><br>
+<span class="show-all">show all</span><br>
+<span class="featured">featured</span><br>	
+<span class="search">search</span><br>
+{% endblock %}
+
+{% block ctl_visualizar_menu %}
+    <span class="ctl-visualizar-menu">
+        &nbsp;
+    </span>
 {% endblock %}
 
 {% block body %}
 <article id="proyectos-article">
     <header>
         <div id="titulos-proyectos">
-        	Work 
-        	<img src="{{asset('images/keyarts/works/diagonal_header.png')}}" alt="Left">
-        	DIAGEO
+            Work 
+            <img src="{{asset('images/keyarts/works/diagonal_header.png')}}" alt="Left">
+            {{pg.proyecto.cliente}}
         </div>
         <div id="controles-proyectos">
-        	<span class="ctl-left">&nbsp;</span>
-        	<span class="ctl-right">&nbsp;</span>
+            <span class="ctl-left">&nbsp;</span>
+            <span class="ctl-right">&nbsp;</span>
         </div>
         <div id="visualizar-proyectos">
-        	<span class="vcells">&nbsp;</span>
-        	<span class="vsingle active">&nbsp;</span>
+            <span class="vcells">&nbsp;</span>
+            <span class="vsingle active">&nbsp;</span>
         </div>
     </header>
-    <span class="ctl-galeria-left ctl-galeria">&nbsp;</span>	
-	<span class="ctl-galeria-right ctl-galeria">&nbsp;</span>
     <div class="proyecto-single">
-    	<ul class="proyecto-galeria-lista">
-				<li>
-					<figure><img src="{{asset('images/demo/slide1.jpg')}}" alt=""></figure>
-				</li>
-				<li>
-					<figure><img src="{{asset('images/demo/slide2.jpg')}}" alt=""></figure>
-				</li>
-				<li>
-					<figure><img src="{{asset('images/demo/slide3.jpg')}}" alt=""></figure>
-				</li>
-				<li>
-					<figure><img src="{{asset('images/demo/slide4.jpg')}}" alt=""></figure>
-				</li>
-		</ul>
-		<div class="proyecto-contenido">
-	    	<h1>DIAGEO Aliados Training</h1>
-			<div class="detalles-proyecto client">
-				<div class="header-detalles-proyecto">
-					<h3>Client</h3>
-					<span>Diageo</span>	
-				</div>
-				<div class="body-detalles-proyecto">
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, accusamus, libero, reiciendis, nostrum rerum at incidunt error dicta maxime exercitationem ex ea odio modi voluptate in dolorem blanditiis eum facere.</p>
-				</div>
-			</div>
-			<div class="detalles-proyecto date">
-				<div class="header-detalles-proyecto">
-					<h3>Date</h3>
-					<span>August 2013</span>	
-				</div>
-				<div class="body-detalles-proyecto">
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, accusamus, libero, reiciendis, nostrum rerum at incidunt error dicta maxime exercitationem ex ea odio modi voluptate in dolorem blanditiis eum facere.</p>
-				</div>
-			</div>
-			<div class="detalles-proyecto location">
-				<div class="header-detalles-proyecto">
-					<h3>Location</h3>
-					<span>Latinoamerica</span>	
-				</div>
-				<div class="body-detalles-proyecto">
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, accusamus, libero, reiciendis, nostrum rerum at incidunt error dicta maxime exercitationem ex ea odio modi voluptate in dolorem blanditiis eum facere.</p>
-				</div>
-			</div>
-		</div>
-	</div>
-	<footer>
-		&nbsp;
-	</footer>
+        <span class="ctl-galeria-left ctl-galeria">&nbsp;</span>    
+        <span class="ctl-galeria-right ctl-galeria">&nbsp;</span>
+        <ul class="proyecto-galeria-lista">
+            {% for galeria in pg.galeria.galerias %}
+            <li>
+                <figure><img src="{{ galeria.webPath | apply_filter('publicaciones_galeria')  }}" alt="{{galeria.titulo}}"></figure>
+            </li>
+            {% endfor %}
+        </ul>
+        <div class="proyecto-contenido">
+            <h1>{{pg.proyecto.titulo}}</h1>
+            <div class="detalles-proyecto client">
+                <div class="header-detalles-proyecto">
+                    {% if pg.proyecto.cliente | length > 0 %}
+                    <h3>Client</h3>
+                    <span>{{pg.proyecto.cliente}}</span>
+                    {% endif %}
+                    {% if pg.proyecto.fecha | length > 0 %}
+                    <h3>Date</h3>
+                    <span>{{pg.proyecto.fecha | date('M, Y')}}</span>	
+                    {% endif %}
+                    {% if pg.proyecto.location | length > 0 %}
+                    <h3>Location</h3>
+                    <span>{{pg.proyecto.location}}</span>
+                    {% endif %}
+                </div>
+                <div class="body-detalles-proyecto">
+                   {{pg.proyecto.descripcion | raw }} 
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        &nbsp;
+    </footer>
 </article>
 {% endblock %}
 {% block javascripts %}
-    {{parent()}}
-    <script type="text/javascript" src="{{asset('js/jquery.nicescroll.min.js')}}"></script>
+{{parent()}}
+<script type="text/javascript" src="{{asset('js/jquery.nicescroll.min.js')}}"></script>
 <script>
-	$(document).ready(function(){
-		var numImagenes=4;
-		var contador=1;
-		$(".ctl-galeria-right").on("click",function(){
-			if(numImagenes>contador){
-				$("ul.proyecto-galeria-lista").animate({'left':'-=775px'},"slow","easeOutCirc");	
-				contador++;
-			}
-		});
-		$(".ctl-galeria-left").on("click",function(){
-			if(contador>1){
-				$("ul.proyecto-galeria-lista").animate({'left':'+=775px'},"slow","easeOutCirc");	
-				contador--;
-			}
-		});
-		var setSizeProyectoContenido=function() { 
-		  var myHeight = 0; 
-		  if( typeof( window.innerHeight ) == 'number' ) { 
-		    //No-IE 
-		    myHeight = window.innerHeight; 
-		  } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) { 
-		    //IE 6+ 
-		    myHeight = document.documentElement.clientHeight; 
-		  } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) { 
-		    //IE 4 compatible 
-		    myHeight = document.body.clientHeight; 
-		  } 
-		  $(".proyecto-contenido").css({'height':(myHeight-470)+'px'});
-		}
+    $(document).ready(function() {
+        var numImagenes = {{pg.galeria.galerias | length }};
+        var contador = 1;
+        $(".ctl-galeria-right").on("click", function() {
+            if (numImagenes > contador) {
+                $("ul.proyecto-galeria-lista").animate({'left': '-=775px'}, "slow", "easeOutCirc");
+                contador++;
+            }
+        });
+        $(".ctl-galeria-left").on("click", function() {
+            if (contador > 1) {
+                $("ul.proyecto-galeria-lista").animate({'left': '+=775px'}, "slow", "easeOutCirc");
+                contador--;
+            }
+        });
+        var setSizeProyectoContenido = function() {
+            var myHeight = 0;
+            if (typeof (window.innerHeight) == 'number') {
+                //No-IE 
+                myHeight = window.innerHeight;
+            } else if (document.documentElement && (document.documentElement.clientWidth || document.documentElement.clientHeight)) {
+                //IE 6+ 
+                myHeight = document.documentElement.clientHeight;
+            } else if (document.body && (document.body.clientWidth || document.body.clientHeight)) {
+                //IE 4 compatible 
+                myHeight = document.body.clientHeight;
+            }
+            $(".proyecto-contenido").css({'height': (myHeight - 470) + 'px'});
+        }
 
-		setSizeProyectoContenido();
+        setSizeProyectoContenido();
 
-		$(".proyecto-contenido").niceScroll(); 
+        $(".ctl-visualizar-menu").click();
 
-	});
+        $(".proyecto-single").niceScroll();
+
+    });
 </script>
 {% endblock %}

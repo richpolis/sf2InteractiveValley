@@ -93,19 +93,17 @@ class CategoriasPublicacion
      */
     protected $publicaciones;
     
-    static public $ABOUT=1;
-    static public $DISTRIBUIDORES=2;
+    static public $PROYECTOS=1;
     
     
     static private $sCategorias=array(
-        1=>'Publicaciones de about',
-        2=>'Publicaciones de distribuidores',
+        1=>'Proyectos',
     );
     
     public function __construct() {
         $this->isActive = true;
         $this->isCategoria = true;
-        $this->tipoCategoria=self::$ABOUT;
+        $this->tipoCategoria=self::$PROYECTOS;
         $this->publicaciones =new \Doctrine\Common\Collections\ArrayCollection();
     }
     

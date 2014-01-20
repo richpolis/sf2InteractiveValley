@@ -63,3 +63,49 @@ swiftmailer:
     username:  %mailer_user%
     password:  %mailer_password%
     spool:     { type: memory }
+
+# GenemuFormBundle Configuracion
+genemu_form:
+    tinymce: ~
+    date: ~
+    file:
+        swf: /js/uploadify/uploadify.swf
+
+knp_paginator:
+    page_range: 5  # número de páginas que se muestran en el paginador
+
+    default_options:
+        # los siguientes tres parámetros permiten "traducir" el paginador
+        # puedes utilizar por ejemplo: 'pagina', 'ordenar' y 'direccion'
+        page_name:           page
+        sort_field_name:     sort
+        sort_direction_name: direction
+
+        # sólo incluir resultados diferentes (útil cuando haces consultas GROUP BY)
+        distinct: true
+
+    template:
+        # estas opciones configuran la plantilla utilizada para la paginación
+        # y para los controles que premiten reordenar los resultados
+        pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_pagination.html.twig
+        sortable:   KnpPaginatorBundle:Pagination:sortable_link.html.twig
+
+avalanche_imagine:
+    filters:
+        galerias_general:
+            type:    thumbnail
+            options: { size: [500, 500], mode: inset, cache_type: public, cache_expires: '2 weeks' }
+        publicaciones_galeria:
+            type:    thumbnail
+            options: { size: [760, 397], mode: outbound, cache_type: public, cache_expires: '2 weeks' }
+        galeria_principal:
+            type:    thumbnail
+            options: { size: [384, 217], mode: outbound, cache_type: public, cache_expires: '2 weeks' }    
+
+parameters:
+    # dirección de correo electrónico
+    richpolis.emails.to_email: richpolis@gmail.com
+    # Blogger máximo de comentarios recientes
+    richpolis_registros_limit: 10
+    richpolis_imagenes_limit: 50
+    richpolis_uploads: %kernel.root_dir%/../web/uploads

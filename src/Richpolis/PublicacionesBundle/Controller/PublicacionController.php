@@ -10,6 +10,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Richpolis\PublicacionesBundle\Entity\Publicacion;
 use Richpolis\PublicacionesBundle\Form\PublicacionType; 
 use Richpolis\PublicacionesBundle\Entity\CategoriasPublicacion;
+use Richpolis\PublicacionesBundle\Entity\PublicacionGalerias;
+use Richpolis\CategoriasGaleriaBundle\Entity\Categorias;
+
 
 /**
  * Publicacion controller.
@@ -145,20 +148,24 @@ class PublicacionController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Publicacion entity.');
         }
+        
+        $galeria = $em->getRepository('PublicacionesBundle:PublicacionGalerias')
+                      ->findOneBy(array('proyecto'=>$entity->getId()));  
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
+            'galerias'    => $galeria,
             'delete_form' => $deleteForm->createView(),
         );
     }
 
-    public function publicacionesAboutAction(){
+    public function publicacionesProyectoAction(){
         $em = $this->getDoctrine()->getManager();
         $filters = $this->getFilters();
         $categoria = $em->getRepository('PublicacionesBundle:CategoriasPublicacion')
-                        ->findOneBySlug('publicaciones-about');
+                        ->findOneBySlug('proyectos');
         if($categoria==null){
             $categoria=$this->getCategoriaDefault();
         }                
@@ -167,44 +174,7 @@ class PublicacionController extends Controller
         return $this->redirect($this->generateUrl('publicacion'));
     }
     
-    public function whereToFindMexicoAction(){
-        $em = $this->getDoctrine()->getManager();
-        $filters = $this->getFilters();
-        $categoria = $em->getRepository('PublicacionesBundle:CategoriasPublicacion')
-                        ->findOneBySlug('where-to-find-mexico');
-        if($categoria==null){
-            $categoria=$this->getCategoriaDefault();
-        }                
-        $filters['publicaciones']=$categoria->getId();
-        $this->get('session')->set('filters',$filters);
-        return $this->redirect($this->generateUrl('publicacion'));
-    }
-
-    public function whereToFindUsaAction(){
-        $em = $this->getDoctrine()->getManager();
-        $filters = $this->getFilters();
-        $categoria = $em->getRepository('PublicacionesBundle:CategoriasPublicacion')
-                        ->findOneBySlug('where-to-find-usa');
-        if($categoria==null){
-            $categoria=$this->getCategoriaDefault();
-        }                
-        $filters['publicaciones']=$categoria->getId();
-        $this->get('session')->set('filters',$filters);
-        return $this->redirect($this->generateUrl('publicacion'));
-    }
-
-    public function whereToFindDistribuidoresAction(){
-        $em = $this->getDoctrine()->getManager();
-        $filters = $this->getFilters();
-        $categoria = $em->getRepository('PublicacionesBundle:CategoriasPublicacion')
-                        ->findOneBySlug('where-to-find-distribuidores');
-        if($categoria==null){
-            $categoria=$this->getCategoriaDefault();
-        }                
-        $filters['publicaciones']=$categoria->getId();
-        $this->get('session')->set('filters',$filters);
-        return $this->redirect($this->generateUrl('publicacion'));
-    }
+    
 
     /**
      * Displays a form to create a new Publicacion entity.
@@ -411,5 +381,65 @@ class PublicacionController extends Controller
         return $this->redirect($this->generateUrl('publicacion',array(
             'page'=>$this->getRequest()->query->get('page', 1)
         )));
+    }
+    
+    /**
+     * Crea y muestra un galeria con relacion a la publicacion.
+     *
+     * @Route("/galerias/create/{id}", name="publicacion_galerias_create")
+     * @Template()
+     */
+    public function publicacionGaleriasCreateAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $galeria = $em->getRepository('PublicacionesBundle:PublicacionGalerias')
+                      ->findOneBy(array('proyecto'=>$id));  
+        $proyecto = $em->getRepository('PublicacionesBundle:Publicacion')
+                      ->findOneBy(array('id'=>$id));
+        if($galeria == null){
+            $publicacion_galerias = new PublicacionGalerias();
+            $tipo=  Categorias::$GALERIA_PROYECTOS;
+            $galeria = new Categorias();
+            $max=$this->getDoctrine()->getRepository('CategoriasGaleriaBundle:Categorias')->getMaxPosicion();
+
+            if(!is_null($max)){
+                $galeria->setPosicion($max+1);
+            }else{
+                $galeria->setPosicion(1);
+            }
+            $galeria->setTipoCategoria($tipo);
+            
+            $galeria->setCategoria($proyecto->getTitulo());
+            $galeria->setDescripcion($proyecto->getDescripcionCorta());
+            $galeria->setIsCategoria(false);
+            
+            $publicacion_galerias->setGaleria($galeria);
+            $publicacion_galerias->setProyecto($proyecto);
+            
+            
+            $em->persist($galeria);
+            $em->flush();
+            $em->persist($publicacion_galerias);
+            $em->flush();
+        }
+        return $this->redirect($this->generateUrl('categorias_show', array('id'=>$galeria->getId())));
+    }
+    
+    /**
+     * Administra una galeria con relacion a la publicacion.
+     *
+     * @Route("/galerias/edit/{id}", name="publicacion_galerias_edit")
+     * @Template()
+     */
+    public function publicacionGaleriasEditAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $publicacion_galeria = $em->getRepository('PublicacionesBundle:PublicacionGalerias')
+                      ->findOneBy(array('proyecto'=>$id));
+        $galeria= $publicacion_galeria->getGaleria();
+        if(!$galeria==null){
+            return $this->redirect($this->generateUrl('categorias_show', array('id'=>$galeria->getId())));
+        }
+        return $this->redirect($this->generateUrl('publicacion_galerias_create', array('id'=>$id)));
     }
 }

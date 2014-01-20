@@ -13,24 +13,22 @@ class PublicacionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('tituloEn','text',array('label'=>'Titulo Ingles'))
-            ->add('tituloEs','text',array('label'=>'Titulo Español')) 
-            ->add('descripcionEn','textarea', array(
+            ->add('titulo','text',array('label'=>'Titulo'))
+            ->add('descripcionCorta','textarea', array(
                     'attr' => array(
                         'class' => 'tinymce',
                         'data-theme' => 'advanced' // Skip it if you want to use default theme
-                    ),'label'=>'Descripcion Ingles'
-                ))    
-            ->add('descripcionEs','textarea', array(
+                    ),'label'=>'Descripcion corta'
+                ))
+            ->add('cliente','text',array('label'=>'Cliente'))
+            ->add('descripcion','textarea', array(
                     'attr' => array(
                         'class' => 'tinymce',
                         'data-theme' => 'advanced' // Skip it if you want to use default theme
-                    ),'label'=>'Descripcion Español'
+                    ),'label'=>'Descripcion proyecto'
                 ))
-            ->add('file','file',array(
-                'label'=>'Imagen',
-                'required'=>false,
-                ))
+            ->add('fecha','genemu_jquerydate',array('label'=>'Date'))
+            ->add('location','text',array('label'=>'Locación'))
             ->add('categoria','entity', array(
                 'class' => 'PublicacionesBundle:CategoriasPublicacion',
                 'query_builder' => function(CategoriasPublicacionRepository $er) {
@@ -42,8 +40,8 @@ class PublicacionType extends AbstractType
                 'multiple'  => false
             ))
             ->add('posicion','hidden')
+            ->add('galeria','hidden')
             ->add('slug','hidden')
-            ->add('thumbnail','hidden')
             ->add('isActive',null,array('label'=>'Activo?','required'=>false))
         ;
     }

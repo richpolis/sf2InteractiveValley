@@ -25,27 +25,8 @@
         "doctrine/doctrine-fixtures-bundle": "dev-master",
         "doctrine/data-fixtures": "dev-master",
         "knplabs/knp-paginator-bundle": "dev-master",
-        "stfalcon/tinymce-bundle": "dev-master",
-        "knplabs/knp-last-tweets-bundle": "*",
-        "inori/twitter-app-bundle" : "dev-master"
-    },"repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "abraham/twitteroauth",
-                "version": "dev-master",
-                "dist": {
-                    "url": "https://github.com/abraham/twitteroauth/zipball/master",
-                    "type": "zip"
-                },
-                "source": {
-                    "url": "git://github.com/abraham/twitteroauth.git",
-                    "type": "git",
-                    "reference": "master"
-                }
-            }
-        }
-    ],
+        "stfalcon/tinymce-bundle": "dev-master"
+    },
     "minimum-stability" : "dev",
     "scripts": {
         "post-install-cmd": [

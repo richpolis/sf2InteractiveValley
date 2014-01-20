@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" ng-app> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" ng-app> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" ng-app> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" ng-app> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}Interactive Valley{% endblock %}{% if app.environment == 'dev' %} | dev {% endif %}</title>
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+        {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/fuentes.css') }}">
+        {% endblock %}
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="{{ asset('js/html5shiv.js') }}"></script>
+        <![endif]-->
+        <style type="text/css" rel="stylesheets">
+            body{
+                background-color: black;
+            }
+            /*section{
+                margin: 10px auto 0px auto;
+                padding: 0;
+                text-align: center;
+                width: 960px;
+                position: relative;
+                color: white;
+            }*/
+
+            section{
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                background: url("/images/demo/ENCONSTRUCCION.png") no-repeat center center;
+                background-size: 100% 100%;
+            }
+
+            #logo{
+                width: 150px;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+            }
+            #logo img{
+                width: 100%;
+            }
+            header{
+                height: 200px;
+            }
+        </style>
+        {% if app.environment == 'prod' %}
+        <script>
+            (function(i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function() {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                        m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', 'UA-44187248-1', 'interactivevalley.com');
+            ga('send', 'pageview');
+
+        </script>
+        {% endif %} 
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+        <p class=chromeframe>Your browser is <em>ancient!</em> 
+        <a href="http://browsehappy.com/">Upgrade to a different browser</a> or 
+        <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.
+        </p>
+        <![endif]-->
+        <section>
+            <!--article id="construccion">
+                <header>
+                    <figure id="logo">
+                        <a href="{{path('construccion')}}">
+                            <img src="{{ asset('images/keyarts/home/interactivevalley-logo.png') }}" alt="Interactive Valley" class="logo">
+                        </a>
+                    </figure>
+                </header>
+                <div class="contenido-article">
+                    <figure>
+                        <img src="{{ asset('images/keyarts/home/interactivevalley-logo.png') }}" alt="Interactive Valley"/>
+                    </figure>
+                    <h1>Interactive Valley</h1>
+                    <p>
+                        En construccion. 
+                    </p>
+                    
+                </div>   
+                <footer>
+                    <p><span>México City</span></p>
+                    <p>
+                    <figure>
+                    <a href="mailto:hello@interactivevalley.com">
+                        <img src="{{ asset('images/keyarts/navegador/contacto_btn.png') }}" alt="Email Interactive Valley"/>
+                    </a>
+                    </figure>
+                    </p>
+
+                </footer>
+            </article-->
+        </section>		
+   {% block javascripts %}
+   {% endblock %}
+</body>
+</html>

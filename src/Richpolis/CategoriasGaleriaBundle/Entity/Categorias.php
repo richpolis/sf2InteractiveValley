@@ -93,16 +93,13 @@ class Categorias
     protected $galerias;
     
     static public $GALERIA_PRINCIPAL=1;
-    static public $GALERIA_ABOUT=2;
-    static public $GALERIA_DISTRIBUIDORES=3;
-    static public $GALERIA_HOWTOMIX=4;
+    static public $GALERIA_PROYECTOS=2;
+
     
     
     static private $sCategorias=array(
         1=>'Galeria Principal',
-        2=>'Galeria About',
-        3=>'Galeria Distribuidores',
-        4=>'Galeria How To Mix',
+        2=>'Galeria de Proyecto',
     );
     
     public function __construct() {

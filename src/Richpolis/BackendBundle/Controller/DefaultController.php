@@ -46,29 +46,12 @@ class DefaultController extends Controller
     }
     
     /**
-     * @Route("/galeria/about", name="backend_galerias_about")
+     * @Route("/galeria/proyecto", name="backend_galerias_proyecto")
      */
-    public function galeriaAboutAction()
+    public function galeriaProyectoAction()
     {
-        return $this->forward('CategoriasGaleriaBundle:Categorias:galeriasAbout');
+        return $this->forward('CategoriasGaleriaBundle:Categorias:galeriasProyecto');
     }
-    
-    /**
-     * @Route("/galeria/distribuidores", name="backend_galerias_distribuidores")
-     */
-    public function galeriaDistribuidoresAction()
-    {
-        return $this->forward('CategoriasGaleriaBundle:Categorias:galeriasDistribuidores');
-    }
-
-    /**
-     * @Route("/galeria/howtomix", name="backend_galerias_howtomix")
-     */
-    public function galeriaHowToMixAction()
-    {
-        return $this->forward('CategoriasGaleriaBundle:Categorias:galeriasHowToMix');
-    }
-    
     
     /**
      * @Route("/configuraciones", name="backend_configuraciones")
@@ -79,36 +62,14 @@ class DefaultController extends Controller
     }
     
     /**
-     * @Route("/publicacion/about", name="publicaciones_about")
+     * @Route("/publicacion/proyecto", name="publicaciones_proyecto")
      */
-    public function publicacionesAboutAction()
+    public function publicacionesProyectoAction()
     {
-        return $this->forward('PublicacionesBundle:Publicacion:publicacionesAbout');
+        return $this->forward('PublicacionesBundle:Publicacion:publicacionesProyecto');
     }
     
-    /**
-     * @Route("/where/to/find/mexico", name="publicaciones_wheretofindmexico")
-     */
-    public function whereToFindMexicoAction()
-    {
-        return $this->forward('PublicacionesBundle:Publicacion:whereToFindMexico');
-    }
     
-    /**
-     * @Route("/where/to/find/usa", name="publicaciones_wheretofindusa")
-     */
-    public function whereToFindUsaAction()
-    {
-        return $this->forward('PublicacionesBundle:Publicacion:whereToFindUsa');
-    }
-    
-    /**
-     * @Route("/where/to/find/distribuidores", name="publicaciones_wheretofinddistribuidores")
-     */
-    public function whereToFindDistribuidoresAction()
-    {
-        return $this->forward('PublicacionesBundle:Publicacion:whereToFindDistribuidores');
-    }
     
     /**
      * @Route("/login", name="backend_login")

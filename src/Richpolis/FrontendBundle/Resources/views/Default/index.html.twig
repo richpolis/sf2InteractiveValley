@@ -2,75 +2,60 @@
 
 {% block stylesheets %}
  {{parent()}}
+<style red="stylesheets" type="text/css">
+   ul.slider{
+     margin 0;  
+   }
+</style>
 {% endblock %}
 
 {% block body %}
 <article id="home-article-principal">
-    <header>
-        <hgroup>
-            <h1>Interactive Valley</h1>	
-            <h2>Interactive Media Desing & Development</h2>
-        </hgroup>
+    <header> 
+        <img src="../images/keyarts/home/interactivevalley-logo.png" alt="">
     </header>
     <div class="contenido-article">
-        Interactive Valley is a highly experienced team of passionate creatives and coders constantly on the search for challenges to push the experience across digital channels - web, mobile and installations - empowering audiences to connect and share. 
+         Interactive Valley is a highly experienced<br/>
+        team of passionate creatives and coders<br/>
+        constantly on the search for challenges<br/>
+        to push the experience across<br/>
+         digital channels—web, mobile, and <br/>
+        installations—empowering audiences to<br/>
+        connect and share.<br/>
+
+
     </div>
     <div id="galeria-principal">
-        <figure id="ctl-left">
-            <img src="{{ asset('images/keyarts/home/home_leftarrow.png') }}" alt="Left">
-        </figure>
+        <span class="titulogaleria">Who we are</span>
         <div id="contenido-galeria">
-            <span class="titulogaleria">
-                who we are
-            </span>
+            <figure id="ctl-left"></figure>
             <ul class="slider">
+                {% for galeria in galerias %}
                 <li>
                     <figure>
-                        <img src="{{ asset('images/demo/img_1.jpg') }}" alt="algun dato">
-                        <figcaption>
-                            titulo
-                        </figcaption>
+                        <img src="{{ galeria.webPath | apply_filter('galeria_principal')  }}" alt="{{galeria.titulo}}">
                     </figure>
                 </li>
-                <li>
-                    <figure>
-                        <img src="{{ asset('images/demo/img_2.jpg') }}" alt="algun dato">
-                        <figcaption>
-                            titulo
-                        </figcaption>
-                    </figure>
-                </li>
-                <li>
-                    <figure>
-                        <img src="{{asset('images/demo/img_3.jpg')}}" alt="algun dato">
-                        <figcaption>
-                            titulo
-                        </figcaption>
-                    </figure>
-                </li>
+                {% endfor %}
             </ul>
+            <figure id="ctl-right"></figure>
         </div>
-        <figure id="ctl-right">
-            <img src="{{asset('images/keyarts/home/home_rightarrow.png')}}" alt="Right">
-        </figure>
+        <span class="slogan">"Pixeles traverls faster than words..."</span>
     </div>
 </article>
 <article  id="home-article-secundario">
-    <header>
-        &nbsp;
-    </header>
-    <div class="contenido-article marginTop60">
+    <div class="contenido-article marginTop310">
         <p>
         <h3>contact</h3>
-        <div>
+        <div class="align-left">
             <a href="mailto:hello@interactivevalley.com">hello@interactivevalley.com</a>
         </div>
         </p>
     </div>
-    <div class="contenido-article marginTop30">
+    <div class="contenido-article marginTop126">
         <p>
         <h3>inquires & opportunities</h3>
-        <div>
+        <div class="align-left">
             Interactive Valley is always looking for new opportunities to collaborate with partners on projects under development, or planning new ways to implement interactive media.<br/> Please contact us to discuss new opportunities for collaboration.
         </div>
         </p> 
@@ -84,11 +69,13 @@
 
 {% endblock %}
 {% block javascripts %}
-    {{parent()}}
+{{parent()}}
+<script type="text/javascript" src="{{asset('js/jquery.bxslider.min.js')}}"></script>
 <script>
     $(document).ready(function(){
         var setSizeArticlesPrimeroSegundo=function() { 
           var myHeight = 0; 
+          var valorOverflow = "hidden";
           if( typeof( window.innerHeight ) == 'number' ) { 
             //No-IE 
             myHeight = window.innerHeight; 
@@ -99,11 +86,40 @@
             //IE 4 compatible 
             myHeight = document.body.clientHeight; 
           } 
-          $("#home-article-principal").css({'min-height':(myHeight-40)+'px'});
-          $("#home-article-secundario").css({'min-height':(myHeight-40)+'px'});
+          
+          if(myHeight < 700){
+              valorOverflow ="auto";          
+          }else{
+              valorOverflow = "hidden";
+          }
+
+          $("#home-article-principal").css({
+            'min-height':(myHeight)+'px','overflow':valorOverflow
+          });
+          $("#home-article-secundario").css({
+            'min-height':(myHeight)+'px','overflow':valorOverflow
+          });
+         
         }
 
         setSizeArticlesPrimeroSegundo();
+
+        $('ul.slider').bxSlider({
+           slideWidth: 384,
+           minSlides: 1,
+           maxSlides: 1,
+           slideMargin: 5,
+           nextSelector: '#ctl-right',
+           prevSelector: '#ctl-left',
+           nextText: '&nbsp;',
+           prevText: '&nbsp;',
+           pager:false
+         });
+        
+        $(window).resize(function(){
+          setSizeArticlesPrimeroSegundo();
+        });
+
     });
 </script>
 {% endblock %}

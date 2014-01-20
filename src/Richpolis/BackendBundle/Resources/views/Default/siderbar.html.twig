@@ -3,35 +3,13 @@
     <li {% if pagina=="galerias-principal" %} class="active" {% endif %}>
         <a href="{{path('backend_galerias_principal')}}">Principal</a>
     </li>
-    <li {% if pagina=="galerias-about" %} class="active" {% endif %}>
-        <a href="{{path('backend_galerias_about')}}">About</a>
-    </li>
-    <li {% if pagina=="galerias-distribuidores-nacionales" or pagina=="galerias-distribuidores-usa" %} class="active" {% endif %}>
-        <a href="{{path('backend_galerias_distribuidores')}}">Distribuidores</a>
-    </li>
-    <li {% if pagina=="galerias-how-to-mix" %} class="active" {% endif %}>
-        <a href="{{path('backend_galerias_howtomix')}}">How To Mix</a>
+    <li {% if pagina=="galerias-proyectos" %} class="active" {% endif %}>
+        <a href="{{path('backend_galerias_proyecto')}}">Proyectos</a>
     </li>
     
-    <li class="nav-header">Publicaciones</li>
-    <li {% if pagina=="publicaciones-about" %} class="active" {% endif %}>
-        <a href="{{path('publicaciones_about')}}">About</a>
-    </li>
-    <li {% if pagina=="where-to-find-mexico" %} class="active" {% endif %}>
-        <a href="{{path('publicaciones_wheretofindmexico')}}">Tiendas México</a>
-    </li>
-    <li {% if pagina=="where-to-find-usa" %} class="active" {% endif %}>
-        <a href="{{path('publicaciones_wheretofindusa')}}">Tiendas USA</a>
-    </li>
-    <li {% if pagina=="where-to-find-distribuidores" %} class="active" {% endif %}>
-        <a href="{{path('publicaciones_wheretofinddistribuidores')}}">Distribuidores</a>
-    </li>
-    <li class="nav-header">Botellas</li>
-    <li {% if pagina=="botellas" %} class="active" {% endif %}>
-        <a href="{{path('botellas')}}">Botellas</a>
-    </li>
-    <li {% if pagina=="mensajes" %} class="active" {% endif %}>
-        <a href="{{path('mensajes')}}">Mensajes</a>
+    <li class="nav-header">Proyectos</li>
+    <li {% if pagina=="publicaciones-proyectos" %} class="active" {% endif %}>
+        <a href="{{path('publicaciones_proyecto')}}">Proyectos</a>
     </li>
     <li class="nav-header">Configuraciones</li>
     <li {% if pagina=="configuraciones" %} class="active" {% endif %}>

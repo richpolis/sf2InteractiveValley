@@ -25,44 +25,48 @@ class Publicacion
     /**
      * @var string
      *
-     * @ORM\Column(name="titulo_es", type="string", length=255 )
+     * @ORM\Column(name="titulo", type="string", length=255 )
      */
-    private $tituloEs;
+    private $titulo;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="titulo_en", type="string", length=255 )
+     * @ORM\Column(name="descripcion_corta", type="text" )
      */
-    private $tituloEn;
+    private $descripcionCorta;  
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cliente", type="string", length=255)
+     */
+    private $cliente;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="descripcion_es", type="text" )
+     * @ORM\Column(name="descripcion", type="text" )
      */
-    private $descripcionEs;
-    
+    private $descripcion;    
+
     /**
      * @var string
      *
-     * @ORM\Column(name="descripcion_en", type="text" )
+     * @ORM\Column(name="fecha", type="date", nullable=true)
      */
-    private $descripcionEn;
-    
+    private $fecha;
+
+   
+
     /**
      * @var string
      *
-     * @ORM\Column(name="archivo", type="string", length=255, nullable=true )
+     * @ORM\Column(name="location", type="string", length=255)
      */
-    private $archivo;
-    
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="thumbnail", type="string", length=255, nullable=true )
-     */
-    private $thumbnail;
+    private $location;
+
+      
 
     /**
      * @var integer
@@ -95,6 +99,7 @@ class Publicacion
      */
     private $categoria;
 
+    
     /**
      * @var \DateTime
      *
@@ -111,6 +116,7 @@ class Publicacion
     
     public function __construct() {
        $this->isActive        =   true;
+       $this->galeria = null;
     }
     
     public function __toString() {
@@ -128,94 +134,28 @@ class Publicacion
     }
 
     /**
-     * Set titulo, segun el locale
+     * Set titulo
      *
      * @param string $titulo
      * @param string $locale 
      * @return Publicacion
      */
-    public function setTitulo($locale,$titulo)
+    public function setTitulo($titulo)
     {
-        if($locale=="es"){
-            $this->tituloEs = $titulo;
-        }else{
-            $this->tituloEn = $titulo;
-        }
-        
-        
+        $this->titulo = $titulo;
         return $this;
     }
 
     /**
      * Get titulo
      *
-     * @param string $locale
      * @return string 
      */
-    public function getTitulo($locale)
+    public function getTitulo()
     {
-        if($locale=="es"){
-            return $this->tituloEs;
-        }else{
-            return $this->tituloEn;
-        }
+        return $this->titulo;
     }
 
-    /**
-     * Set descripcion, segun el locale de la aplicacion 
-     *
-     * @param string $descripcion
-     * @return Publicacion
-     */
-    public function setDescripcion($locale,$descripcion)
-    {
-        if($locale=="es"){
-            $this->descripcionEs = $descripcion;
-        }else{
-            $this->descripcionEn = $descripcion;
-        }
-    
-        return $this;
-    }
-
-    /**
-     * Get descripcion, segun el locale de la aplicacion
-     *
-     * @return string 
-     */
-    public function getDescripcion($locale)
-    {
-        if($locale=="es"){
-            return $this->descripcionEs;
-        }else{
-            return $this->descripcionEn;
-        }
-    }
-
-    /**
-     * Set thumbnail
-     *
-     * @param string $thumbnail
-     * @return Publicacion
-     */
-    public function setThumbnail($thumbnail)
-    {
-        $this->thumbnail = $thumbnail;
-    
-        return $this;
-    }
-
-    /**
-     * Get thumbnail
-     *
-     * @return string 
-     */
-    public function getThumbnail()
-    {
-        return $this->thumbnail;
-    }
-    
-    
     /**
      * Set posicion
      *
@@ -317,7 +257,7 @@ class Publicacion
     */
     public function setSlugAtValue()
     {
-        $this->slug = \Richpolis\BackendBundle\Utils\Richsys::slugify($this->getTituloEn());
+        $this->slug = \Richpolis\BackendBundle\Utils\Richsys::slugify($this->getTitulo());
     }
     
     /*
@@ -362,171 +302,7 @@ class Publicacion
             return "Sin titulo";
     }
     
-    /*
-     * Crea el thumbnail y lo guarda en un carpeta dentro del webPath thumbnails
-     * 
-     * @return void
-     */
-    public function crearThumbnail(){
-        $imagine= new \Imagine\Gd\Imagine();
-        $mode= \Imagine\Image\ImageInterface::THUMBNAIL_OUTBOUND;
-        $size=new \Imagine\Image\Box($this->getWidth(),$this->getHeight());
-        $this->thumbnail=$this->archivo;
-        
-        $imagine->open($this->getAbsolutePath())
-                ->thumbnail($size, $mode)
-                ->save($this->getAbosluteThumbnailPath());
-        
-    }
     
-    
-    /*** uploads ***/
-    
-    public $file;
-    
-    /**
-    ** @ORM\PrePersist
-    * @ORM\PreUpdate
-    */
-    public function preUpload()
-    {
-      if (null !== $this->file) {
-        // do whatever you want to generate a unique name
-        $this->archivo       =   uniqid().'.'.$this->file->guessExtension();
-        $this->thumbnail    =   $this->archivo;
-      }
-    }
-
-    /**
-    * @ORM\PostPersist
-    * @ORM\PostUpdate
-    */
-    public function upload()
-    {
-      if (null === $this->file) {
-        return;
-      }
-
-      // if there is an error when moving the file, an exception will
-      // be automatically thrown by move(). This will properly prevent
-      // the entity from being persisted to the database on error
-      $this->file->move($this->getUploadRootDir(), $this->archivo);
-
-      $this->crearThumbnail();
-      
-      unset($this->file);
-    }
-
-    /**
-    * @ORM\PostRemove
-    */
-    public function removeUpload()
-    {
-      if ($file = $this->getAbsolutePath()) {
-        if(file_exists($file)){
-            unlink($file);
-        }
-      }
-      if($thumbnail=$this->getAbosluteThumbnailPath()){
-         if(file_exists($thumbnail)){
-            unlink($thumbnail);
-        }
-      }
-    }
-    
-    protected function getUploadDir()
-    {
-        return '/uploads/publicaciones';
-    }
-
-    protected function getUploadRootDir()
-    {
-        return __DIR__.'/../../../../web'.$this->getUploadDir();
-    }
-    
-    protected function getThumbnailRootDir()
-    {
-        return __DIR__.'/../../../../web'.$this->getUploadDir().'/thumbnails';
-    }
-        
-    public function getWebPath()
-    {
-        return null === $this->archivo ? null : $this->getUploadDir().'/'.$this->archivo;
-    }
-
-    public function getThumbnailWebPath()
-    {
-        if(!$this->thumbnail){
-            if(!file_exists($this->getAbosluteThumbnailPath()) && file_exists($this->getAbsolutePath())){
-                $this->crearThumbnail();
-            }
-        }
-        return null === $this->thumbnail ? null : $this->getUploadDir().'/thumbnails/'.$this->thumbnail;
-    }
-    
-    public function getAbsolutePath()
-    {
-        return null === $this->archivo ? null : $this->getUploadRootDir().'/'.$this->archivo;
-    }
-    
-    public function getAbosluteThumbnailPath(){
-        return null === $this->thumbnail ? null : $this->getUploadRootDir().'/thumbnails/'.$this->thumbnail;
-    }
-    
-    public function actualizaThumbnail()
-    {
-      if($thumbnail=$this->getAbosluteThumbnailPath()){
-         if(file_exists($thumbnail)){
-            unlink($thumbnail);
-        }
-      }
-      $this->crearThumbnail();
-    }
-    
-    public function getArchivoView(){
-        $opciones=array(
-            'tipo_archivo'  => \Richpolis\BackendBundle\Utils\Richsys::getTipoArchivo($this->getArchivo()),
-            'archivo'   =>  $this->getArchivo(),
-            'carpeta'   =>  'publicaciones',
-            'width'     =>  $this->getWidth(),
-            'height'    =>  $this->geHeight(),
-        );
-        
-        return \Richpolis\BackendBundle\Utils\Richsys::getArchivoView($opciones);
-    }
-    public function getWidth(){
-        return 300;
-    }
-    public function getHeight(){
-        return 225;
-    }
-    
-
-    
-
-    /**
-     * Set archivo
-     *
-     * @param string $archivo
-     *
-     * @return Publicacion
-     */
-    public function setArchivo($archivo)
-    {
-        $this->archivo = $archivo;
-
-        return $this;
-    }
-
-    /**
-     * Get archivo
-     *
-     * @return string 
-     */
-    public function getArchivo()
-    {
-        return $this->archivo;
-    }
 
     public function getDescripcionHtml(){
        $traduce=array('Á'=>'&Aacute;',
@@ -575,51 +351,7 @@ class Publicacion
         return $this->categoria;
     }
 
-    /**
-     * Set descripcionEs
-     *
-     * @param string $descripcionEs
-     * @return Publicacion
-     */
-    public function setDescripcionEs($descripcionEs)
-    {
-        $this->descripcionEs = $descripcionEs;
-
-        return $this;
-    }
-
-    /**
-     * Get descripcionEs
-     *
-     * @return string 
-     */
-    public function getDescripcionEs()
-    {
-        return $this->descripcionEs;
-    }
-
-    /**
-     * Set descripcionEn
-     *
-     * @param string $descripcionEn
-     * @return Publicacion
-     */
-    public function setDescripcionEn($descripcionEn)
-    {
-        $this->descripcionEn = $descripcionEn;
-
-        return $this;
-    }
-
-    /**
-     * Get descripcionEn
-     *
-     * @return string 
-     */
-    public function getDescripcionEn()
-    {
-        return $this->descripcionEn;
-    }
+    
 
     /**
      * Set slug
@@ -644,49 +376,192 @@ class Publicacion
         return $this->slug;
     }
 
+    
+
     /**
-     * Set tituloEs
+     * Set descripcionCorta
      *
-     * @param string $tituloEs
+     * @param string $descripcionCorta
      * @return Publicacion
      */
-    public function setTituloEs($tituloEs)
+    public function setDescripcionCorta($descripcionCorta)
     {
-        $this->tituloEs = $tituloEs;
+        $this->descripcionCorta = $descripcionCorta;
 
         return $this;
     }
 
     /**
-     * Get tituloEs
+     * Get descripcionCorta
      *
      * @return string 
      */
-    public function getTituloEs()
+    public function getDescripcionCorta()
     {
-        return $this->tituloEs;
+        return $this->descripcionCorta;
     }
 
     /**
-     * Set tituloEn
+     * Set cliente
      *
-     * @param string $tituloEn
+     * @param string $cliente
      * @return Publicacion
      */
-    public function setTituloEn($tituloEn)
+    public function setCliente($cliente)
     {
-        $this->tituloEn = $tituloEn;
+        $this->cliente = $cliente;
 
         return $this;
     }
 
     /**
-     * Get tituloEn
+     * Get cliente
      *
      * @return string 
      */
-    public function getTituloEn()
+    public function getCliente()
     {
-        return $this->tituloEn;
+        return $this->cliente;
+    }
+
+    /**
+     * Set descripcionCliente
+     *
+     * @param string $descripcionCliente
+     * @return Publicacion
+     */
+    public function setDescripcionCliente($descripcionCliente)
+    {
+        $this->descripcionCliente = $descripcionCliente;
+
+        return $this;
+    }
+
+    /**
+     * Get descripcionCliente
+     *
+     * @return string 
+     */
+    public function getDescripcionCliente()
+    {
+        return $this->descripcionCliente;
+    }
+
+    /**
+     * Set fecha
+     *
+     * @param \DateTime $fecha
+     * @return Publicacion
+     */
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
+
+        return $this;
+    }
+
+    /**
+     * Get fecha
+     *
+     * @return \DateTime 
+     */
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+    /**
+     * Set descripcionFecha
+     *
+     * @param string $descripcionFecha
+     * @return Publicacion
+     */
+    public function setDescripcionFecha($descripcionFecha)
+    {
+        $this->descripcionFecha = $descripcionFecha;
+
+        return $this;
+    }
+
+    /**
+     * Get descripcionFecha
+     *
+     * @return string 
+     */
+    public function getDescripcionFecha()
+    {
+        return $this->descripcionFecha;
+    }
+
+    /**
+     * Set location
+     *
+     * @param string $location
+     * @return Publicacion
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
+    /**
+     * Get location
+     *
+     * @return string 
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * Set descripcionLocation
+     *
+     * @param string $descripcionLocation
+     * @return Publicacion
+     */
+    public function setDescripcionLocation($descripcionLocation)
+    {
+        $this->descripcionLocation = $descripcionLocation;
+
+        return $this;
+    }
+
+    /**
+     * Get descripcionLocation
+     *
+     * @return string 
+     */
+    public function getDescripcionLocation()
+    {
+        return $this->descripcionLocation;
+    }
+
+    
+
+    /**
+     * Set descripcion
+     *
+     * @param string $descripcion
+     *
+     * @return Publicacion
+     */
+    public function setDescripcion($descripcion)
+    {
+        $this->descripcion = $descripcion;
+
+        return $this;
+    }
+
+    /**
+     * Get descripcion
+     *
+     * @return string 
+     */
+    public function getDescripcion()
+    {
+        return $this->descripcion;
     }
 }

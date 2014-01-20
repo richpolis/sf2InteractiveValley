@@ -168,25 +168,13 @@ class CategoriasController extends Controller
                 );
     }
     
-    public function galeriasDistribuidoresAction(){
+    public function galeriasProyectoAction(){
         return $this->forward(
                 'CategoriasGaleriaBundle:Categorias:showCategoria', 
-                array('tipo'=>  Categorias::$GALERIA_DISTRIBUIDORES)
+                array('tipo'=>  Categorias::$GALERIA_PROYECTOS)
                 );
     }
     
-    public function galeriasAboutAction(){
-        return $this->forward(
-                'CategoriasGaleriaBundle:Categorias:showCategoria', 
-                array('tipo'=>  Categorias::$GALERIA_ABOUT)
-                );
-    }
-    public function galeriasHowToMixAction(){
-        return $this->forward(
-                'CategoriasGaleriaBundle:Categorias:showCategoria', 
-                array('tipo'=>  Categorias::$GALERIA_HOWTOMIX)
-                );
-    }
 
     /**
      * Displays a form to create a new Categorias entity.
